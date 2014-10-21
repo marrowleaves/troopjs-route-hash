@@ -1,0 +1,12 @@
+{
+  "name": "troopjs-route-hash",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components"
+  ],
+  "dependencies": {
+    "troopjs-dom": "~3",
+    "mu-jquery-hashchange": "~0"
+  }
+}
