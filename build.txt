@@ -1,0 +1,5 @@
+
+bower_components/../main.js
+----------------
+bower_components/../version.js
+bower_components/../component.js
