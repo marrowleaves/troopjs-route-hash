@@ -2,16 +2,17 @@
  * @license MIT http://troopjs.mit-license.org/
  */
 define([
-	"troopjs-dom/component/widget",
-	"mu-hashchange"
-], function (Widget) {
+	"troopjs-dom/component",
+	"troopjs-core/pubsub/hub",
+	"mu-jquery-hashchange/jquery.hashchange"
+], function (Component, hub) {
 	"use strict";
 
 	/**
-	 * Widget that attaches to the window object in order to handle `window.location.hash` changes.
-	 * @class route.hash.widget
-	 * @extend dom.component.widget
-	 * @alias widget.hash
+	 * Component that attaches to the window object in order to handle `window.location.hash` changes.
+	 * @class route.hash.component
+	 * @extend dom.component
+	 * @alias hash.component
 	 */
 
 	var $ELEMENT = "$element";
@@ -20,7 +21,7 @@ define([
 
 	/**
 	 * Hash change event (global)
-	 * @localdoc Triggered when a {@link #$element} with {@link route.hash.widget} attached to it changes its hash
+	 * @localdoc Triggered when a {@link #$element} with {@link route.hash.component} attached to it changes its hash
 	 * @event hub/hash/change
 	 * @param {String} hash The new hash
 	 */
@@ -36,10 +37,10 @@ define([
 
 	/**
 	 * Hash set event (global)
-	 * @localdoc Triggered when a component wants to change the hash of an {@link #$element}'s with {@link route.hash.widget} attached to it
+	 * @localdoc Triggered when a component wants to change the hash of an {@link #$element}'s with {@link route.hash.component} attached to it
 	 * @event hub/hash/set
 	 * @param {String} hash The new hash
-	 * @param {Boolean} [silent=false] Change the hash silently without triggering {@link route.hash.widget#event-hub/hash/change} event.
+	 * @param {Boolean} [silent=false] Change the hash silently without triggering {@link route.hash.component#event-hub/hash/change} event.
 	 */
 
 	/**
@@ -49,7 +50,7 @@ define([
 	 * @preventable
 	 * @param {Object} $event {@link jQuery} event
 	 * @param {String} hash The new hash
-	 * @param {Boolean} [silent=false] Change the hash silently without triggering {@link route.hash.widget#event-dom/hashchange} event.
+	 * @param {Boolean} [silent=false] Change the hash silently without triggering {@link route.hash.component#event-dom/hashchange} event.
 	 */
 
 	/**
@@ -67,8 +68,8 @@ define([
 	 * @return {Promise}
 	 */
 
-	return Widget.extend({
-		"displayName" : "route/hash/widget",
+	return Component.extend({
+		"displayName" : "route/hash/component",
 
 		/**
 		 * @inheritdoc
@@ -93,7 +94,7 @@ define([
 			// Did anything change?
 			if (hash !== me[HASH]) {
 				// Store and publish new hash
-				me.publish("route/change", me[HASH] = hash);
+				hub.publish("route/change", me[HASH] = hash);
 			}
 			else {
 				// Prevent further hashchange handlers from receiving this
@@ -108,7 +109,7 @@ define([
 		 * @handler
 		 */
 		"dom/hashset": function ($event, hash, silent) {
-			this.publish("route/set", hash, null, silent);
+			hub.publish("route/set", hash, null, silent);
 		},
 
 		/**
