@@ -2,6 +2,7 @@
   "name": "troopjs-route-hash",
   "ignore": [
     "**/.*",
+    "node_modules",
     "bower_components"
   ],
   "dependencies": {
