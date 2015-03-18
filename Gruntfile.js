@@ -42,7 +42,8 @@ define(['troopjs-route-hash/version'], function (version) {\n\
 						"name": "troopjs-route-hash/main",
 						"exclude": [
 							"troopjs-dom/component",
-              "mu-jquery-hashchange/jquery.hashchange"
+							"troopjs-hub/component",
+							"mu-jquery-hashchange/jquery.hashchange"
 						],
 						"excludeShallow": [
 							"troopjs-route-hash/main"

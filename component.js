@@ -2,10 +2,12 @@
  * @license MIT http://troopjs.mit-license.org/
  */
 define([
+	"troopjs-compose/factory",
 	"troopjs-dom/component",
-	"troopjs-core/pubsub/hub",
+	"troopjs-hub/component",
+	"troopjs-hub/emitter",
 	"mu-jquery-hashchange/jquery.hashchange"
-], function (Component, hub) {
+], function (Factory, DOMComponent, HUBComponent, hub) {
 	"use strict";
 
 	/**
@@ -68,7 +70,7 @@ define([
 	 * @return {Promise}
 	 */
 
-	return Component.extend({
+	return Factory(HUBComponent, DOMComponent, {
 		"displayName" : "route/hash/component",
 
 		/**
@@ -94,7 +96,7 @@ define([
 			// Did anything change?
 			if (hash !== me[HASH]) {
 				// Store and publish new hash
-				hub.publish("route/change", me[HASH] = hash);
+				hub.emit("route/change", me[HASH] = hash);
 			}
 			else {
 				// Prevent further hashchange handlers from receiving this
@@ -109,7 +111,7 @@ define([
 		 * @handler
 		 */
 		"dom/hashset": function ($event, hash, silent) {
-			hub.publish("route/set", hash, null, silent);
+			hub.emit("route/set", hash, null, silent);
 		},
 
 		/**
