@@ -3,7 +3,7 @@ define([
     "../component",
     "troopjs-core/component/signal/start",
     "troopjs-core/component/signal/finalize",
-    "troopjs-core/pubsub/hub"
+    "troopjs-hub/emitter"
 ], function(Component, start, finalize, hub){
     _hub = hub;
     buster.testCase("troopjs-route-hash/component", function(run){
@@ -25,21 +25,21 @@ define([
             },
             "detect location hash change": function(done){
                 var path = "page-1";
-                hub.subscribe('route/change', function(_path){
+                hub.on('route/change', function(_path){
                     assert.equals(_path, path);
-                    hub.unsubscribe('route/change');
+                    hub.off('route/change');
                     done();
                 });
                 window.location.hash = path;
             },
             "able to set location hash": function(done){
                 var path = "page-2";
-                hub.subscribe('route/change', function(_path){
+                hub.on('route/change', function(_path){
                     assert.equals(_path, path);
-                    hub.unsubscribe('route/change');
+                    hub.off('route/change');
                     done();
                 });
-                hub.publish('route/set', path)
+                hub.emit('route/set', path)
                     .then(function(){
                         assert.equals(window.location.hash, '#' + path);
                     });
@@ -51,16 +51,16 @@ define([
                 // before it is unsubscribed by the 'route/set' callback
                 // (in case silent set is failed).
                 var path = "page-2";
-                hub.subscribe('route/change', function(_path){
+                hub.on('route/change', function(_path){
                     assert.equals(true, false, "should not be called");
                 });
-                hub.publish('route/set', path, undefined, true)
+                hub.emit('route/set', path, undefined, true)
                     .then(function(){
                         assert.equals(window.location.hash, '#' + path);
-                        hub.unsubscribe('route/change');
+                        hub.off('route/change');
                         done();
                     });
-            },
+            }
         });
 
     });
