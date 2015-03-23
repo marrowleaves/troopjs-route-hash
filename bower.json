@@ -6,8 +6,8 @@
     "bower_components"
   ],
   "dependencies": {
-    "troopjs-dom": "^8",
-    "troopjs-hub": "^1",
+    "troopjs-dom": "^8.0.1",
+    "troopjs-hub": "^1.0.2",
     "mu-jquery-hashchange": "^0"
   },
   "devDependencies": {
